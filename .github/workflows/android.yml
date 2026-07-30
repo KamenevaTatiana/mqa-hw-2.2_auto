@@ -12,34 +12,51 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
-    - name: set up JDK 17
+
+    - name: Set up JDK 17
       uses: actions/setup-java@v3
       with:
         java-version: '17'
         distribution: 'adopt'
         cache: gradle
 
+    - name: Setup Android SDK
+      uses: android-actions/setup-android@v2
+
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew
-    
+
     - name: Build with Gradle
       run: ./gradlew build
-      
+
   test:
-    runs-on: macos-15-intel
+    runs-on: ubuntu-latest   
     steps:
     - uses: actions/checkout@v3
-    - name: set up JDK 17
+
+    - name: Set up JDK 17
       uses: actions/setup-java@v3
       with:
         java-version: '17'
         distribution: 'adopt'
         cache: gradle
 
+    - name: Setup Android SDK
+      uses: android-actions/setup-android@v2
+
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew
-      
-    - name: run tests
+
+    - name: Run instrumentation tests on emulator
+      uses: reactivecircus/android-emulator-runner@v2
+      with:
+        api-level: 29
+        target: default
+        arch: x86_64
+        profile: pixel_4
+        force-avd: true
+        disable-animations: true
+        script: ./gradlew connectedCheck
       uses: reactivecircus/android-emulator-runner@v2
       with:
         api-level: 29
