@@ -25,7 +25,7 @@ jobs:
       - name: Create local.properties
         run: echo "sdk.dir=$ANDROID_HOME" > local.properties
 
-      - name: Remove local JDK path from gradle.properties (if any)
+      - name: Remove local JDK path from gradle.properties
         run: sed -i '/org.gradle.java.home/d' gradle.properties || true
 
       - name: Grant execute permission for gradlew
@@ -52,7 +52,7 @@ jobs:
       - name: Create local.properties
         run: echo "sdk.dir=$ANDROID_HOME" > local.properties
 
-      - name: Remove local JDK path from gradle.properties (if any)
+      - name: Remove local JDK path from gradle.properties
         run: sed -i '/org.gradle.java.home/d' gradle.properties || true
 
       - name: Grant execute permission for gradlew
@@ -65,6 +65,8 @@ jobs:
           target: default
           arch: x86_64
           profile: pixel_4
-          use-kvm: true                  
-          disable-animations: true
-          script: ./gradlew connectedCheck
+          force-avd-creation: true          
+          disable-animations: true          
+          emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim
+          emulator-boot-timeout: 600        
+          script: ./gradlew connectedCheck --info   
