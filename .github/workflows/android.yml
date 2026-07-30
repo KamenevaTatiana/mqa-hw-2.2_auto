@@ -30,7 +30,8 @@ jobs:
       run: ./gradlew build
 
   test:
-    runs-on: ubuntu-latest   
+    runs-on: ubuntu-latest
+
     steps:
     - uses: actions/checkout@v3
 
@@ -56,8 +57,4 @@ jobs:
         profile: pixel_4
         force-avd: true
         disable-animations: true
-        script: ./gradlew connectedCheck
-      uses: reactivecircus/android-emulator-runner@v2
-      with:
-        api-level: 29
         script: ./gradlew connectedCheck
